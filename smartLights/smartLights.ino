@@ -10,10 +10,10 @@ OneButton button1(23, true, true);
 int buttonPin = 23;
 boolean activated;  // true for bulb on, falso for off
 bool buttonstate, laststate, hueState; 
-int lastbright, lastbulb, lasti, bright, pos, newVal, i, j;
+int lastbright, lastbulb, lastx, bright, pos, newVal, x, y;
 Encoder myEnc(14, 15); 
 IPAddress ip(192,168,1,16);  // Teensy IP
-int colorArray[] = {HueRed, HueOrange, HueYellow, HueGreen, HueBlue, HueIndigo, HueViolet};
+int colorArrayHue[] = {HueRed, HueOrange, HueYellow, HueGreen, HueBlue, HueIndigo, HueViolet};
 int bulb[] = {0, 1, 2, 3, 4};
 
 
@@ -39,16 +39,16 @@ void click1Lights(){
 
 void doubleClick1Lights(){
   Serial.println("DoubleClick");
-  i++;
-  if (i > 7) {
-    i=0;
+  x++;
+  if (x > 7) {
+    x=0;
     }
 }
 
 void longPress1Lights(){
-  j++;
-  if(j>5){
-    j=1;
+  y++;
+  if(y>5){
+    y=1;
     }
 }
 
@@ -78,15 +78,15 @@ void initethernet(){
 
 void initLightsSetup() {
   Serial.println(" Ready.");
-  i=2;
-  j=1;
-  setHue(bulb[j], true, colorArray[i], bright);
+  x=2;
+  y=1;
+  setHue(bulb[y], true, colorArrayHue[x], bright);
   buttonstate = true; 
   laststate = false;
   hueState = true;
-  lasti = i;
+  lastx = x;
   lastbright = bright;
-  lastbulb = j;
+  lastbulb = y;
 }
 
 void Brightness() {
@@ -103,18 +103,18 @@ void Brightness() {
 
 void BulbFunction() {
   char *a = "ON";
-  if((hueState!=laststate)||(bright != lastbright) || (i != lasti) || (j != lastbulb)){
-    setHue(bulb[j], hueState, colorArray[i], bright);
+  if((hueState!=laststate)||(bright != lastbright) || (x != lastx) || (y != lastbulb)){
+    setHue(bulb[y], hueState, colorArrayHue[x], bright);
     laststate = hueState;
     lastbright = bright;
-    lasti = i;
-    lastbulb = j;
+    lastx = x;
+    lastbulb = y;
       if (hueState == true){
        a = "ON";
         }
       else{
         a = "OFF";
           }
-    Serial.printf("Bulb %i is %s, Color Value = %i, Brightness %i\n",  j, a, colorArray[i], bright);
+    Serial.printf("Bulb %i is %s, Color Value = %i, Brightness %i\n",  y, a, colorArrayHue[x], bright);
     } 
 }
