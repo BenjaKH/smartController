@@ -16,10 +16,9 @@ IPAddress ip(192,168,1,16);  // Teensy IP
 int colorArray[] = {HueRed, HueOrange, HueYellow, HueGreen, HueBlue, HueIndigo, HueViolet};
 int bulb[] = {0, 1, 2, 3, 4};
 
-//String a;
 
 void setup() {
-  initbuttons();
+  initButtonLights();
   initethernet();
   initLightsSetup();  
 
@@ -33,12 +32,12 @@ void loop() {
     
 }
 
-void click1(){
+void click1Lights(){
   Serial.println("Click");
   hueState = !hueState;
 }
 
-void doubleClick1(){
+void doubleClick1Lights(){
   Serial.println("DoubleClick");
   i++;
   if (i > 7) {
@@ -46,17 +45,17 @@ void doubleClick1(){
     }
 }
 
-void longPress1(){
+void longPress1Lights(){
   j++;
   if(j>5){
     j=1;
     }
 }
 
-void initbuttons(){
-  button1.attachClick(click1);
-  button1.attachDoubleClick(doubleClick1);
-  button1.attachLongPressStop(longPress1);
+void initButtonLights(){
+  button1.attachClick(click1Lights);
+  button1.attachDoubleClick(doubleClick1Lights);
+  button1.attachLongPressStop(longPress1Lights);
   button1.setDebounceTicks(100);
 }
 
@@ -64,12 +63,21 @@ void initethernet(){
   Serial.begin(9600);
   Ethernet.begin(mac,ip);
   delay(2000);              // Wait for Serial Monitor
-  Serial.print("LinkStatus: ");
+  Serial.println("connecting...");
   Serial.println(Ethernet.linkStatus());
+    // print your local IP address:
+  Serial.print("My IP address: ");
+  for (byte thisByte = 0; thisByte < 4; thisByte++) {
+    // print the value of each byte of the IP address:
+    Serial.print(Ethernet.localIP()[thisByte], DEC);
+    Serial.print("."); 
+  }
+  Serial.println();
+  Serial.print("LinkStatus: ");
 }
 
 void initLightsSetup() {
-  Serial.println("Ready.");
+  Serial.println(" Ready.");
   i=2;
   j=1;
   setHue(bulb[j], true, colorArray[i], bright);
@@ -94,18 +102,19 @@ void Brightness() {
 }
 
 void BulbFunction() {
+  char *a = "ON";
   if((hueState!=laststate)||(bright != lastbright) || (i != lasti) || (j != lastbulb)){
     setHue(bulb[j], hueState, colorArray[i], bright);
     laststate = hueState;
     lastbright = bright;
     lasti = i;
     lastbulb = j;
-//      if (hueState == true){
-//       a = "ON";
-//        }
-//      else{
-//        a = "OFF";
-//          }
-    Serial.printf("Bulb %i is %i, Color Value = %i, Brightness %i\n",  j, hueState, colorArray[i], bright);
+      if (hueState == true){
+       a = "ON";
+        }
+      else{
+        a = "OFF";
+          }
+    Serial.printf("Bulb %i is %s, Color Value = %i, Brightness %i\n",  j, a, colorArray[i], bright);
     } 
 }
