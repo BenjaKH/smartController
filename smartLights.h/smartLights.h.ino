@@ -97,22 +97,22 @@ void doubleClick1(){
   Serial.printf("DoubleClick: %i \n",i);
 }
 
-void longPress1(){
+void longPress1(){j
   j++;
   if(j>5){
     j=1;
     }
     Serial.printf("%i position of light \n", j);
 }
-//
-//   void smartLights(void) {
-//  display.clearDisplay();
-//
-//  display.setTextSize(1);             // Normal 1:1 pixel scale
-//  display.setTextColor(SSD1306_WHITE);        // Draw white text
-//  display.setCursor(0,0);             // Start at top-left corner
-//  display.printf("Atomspheric pressure is %.2f inches mercury. \n", inHg);
-//
-//  display.display();
-//  delay(5000);
-//}
+
+void smartLights(void) {
+  display.clearDisplay();
+
+  display.setTextSize(1);             // Normal 1:1 pixel scale
+  display.setTextColor(SSD1306_WHITE);        // Draw white text
+  display.setCursor(0,0);             // Start at top-left corner
+  display.printf("Smart Lights \n, Bulb %i", j);
+
+  display.display();
+  delay(5000);
+}
