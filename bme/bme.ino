@@ -7,9 +7,9 @@
 #include <Adafruit_NeoPixel.h>
 #include <colors.h>
 
-Adafruit_NeoPixel pixel(12, 17, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixel(12, 16, NEO_GRB + NEO_KHZ800);
 int p = 0;
-int pinOut = 17;
+int pinOut = 16;
 int newVal;
 int colorArray[] = {violet, blue, purple, cyan, teal, green, yellow, orange, maroon, red};
 
@@ -52,9 +52,6 @@ byte count = 0;
 float humidRH, pressPA, tempC, tempF, hpa, inHg;
 bool status = true;
 
-File dataFile;
-const int chipSelect = 4;
-
 const int readArray[] = {14, 15, 16};
 String dataString;
 int j;
@@ -64,17 +61,12 @@ float sensor;
 void setup() {
 Serial.begin(9600);
 
-   while (!Serial);
-  Serial.print("Initializing SD card...");
-  
-  if (!SD.begin(chipSelect)) {
-    Serial.println("Card failed, or not present");
-    return;
-  } 
+   while (!Serial);          
+  Serial.print("Initializing..."); 
   
 //  num_sensors = 3;
 
-  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+//   SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3C for 128x32
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
@@ -112,20 +104,9 @@ Serial.begin(9600);
   display.invertDisplay(false);
   delay(1000);
 
-//  testanimate(logo_bmp, LOGO_WIDTH, LOGO_HEIGHT); // Animate bitmaps
+  while (!Serial);
+  Serial.printf("Beginning I2C scan \n");
 
-//  while (!Serial);
-//  Serial.printf("Beginning I2C scan \n");
-//
-//  Wire.begin();
-//  for (i = 0; i <= 127; i++) {
-//    Wire.beginTransmission(i);
-//    if(Wire.endTransmission() == 0){
-//      Serial.printf("Found adress: %d (0x%02X) \n", i,i);
-//      count++;
-//      delay(1);
-//    } 
-//  }
   
  status = bme.begin(0x76);
  if(status == false){
@@ -133,6 +114,7 @@ Serial.begin(9600);
 
  pixel.begin();
  pixel.show();
+ pixel.setBrightness(10);
 }
 
 
@@ -171,16 +153,8 @@ void loop() {
     dataString += String(humidRH);
     dataString += String(", TempF, " );
     dataString += String(tempF);
-//    if (j < (num_sensors - 1)) {
-//      dataString += ",";
-//    }
-//  }
 
-  print2SD();
-  delay(2000);
-//  read2SD();
-//  Serial.println();
-//  delay(1000);
+
   newVal = map(tempF, 70, 90, 0, 12);
     pixel.fill(colorArray[newVal], 0, 12);
     pixel.show();
@@ -242,29 +216,4 @@ void drawreadTemperature(void) {
 
   display.display();
   delay(2000);
-}
-
-void print2SD() {
-  dataFile = SD.open("datalog.csv",FILE_WRITE);
-  if (dataFile) {
-    Serial.println(dataString);
-    dataFile.println(dataString);
-    dataFile.close();
-  }
-  else {
-    Serial.println("Error openning datalog.csv");
-  }  
-} 
-
-void read2SD(){
-  dataFile = SD.open("datalog.csv");
-  if(dataFile){
-    Serial.println("Reading from datafile.csv");
-    while (dataFile.available()){
-      Serial.write(dataFile.read());
-    }
-  }
-  else {
-    Serial.println("Error openning datalog.csv");
-  }
 }
