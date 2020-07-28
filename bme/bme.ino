@@ -29,7 +29,6 @@ Adafruit_BME280 bme;
 
 void setup() {
   Serial.begin(9600);
-
   while (!Serial);          
     Serial.print("Initializing..."); 
 
