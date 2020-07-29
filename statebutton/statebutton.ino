@@ -7,14 +7,7 @@ const int red_led = 4;
 int GreenButtonState[] = {0, 1, 2, 3};
 int G = 0;
 //bool flash = false; 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 32 // OLED display height, in pixels
 
-// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
-#define OLED_RESET    
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-
-Adafruit_BME280 bme;
 
 
 void setup() {
@@ -38,6 +31,7 @@ void loop() {
   Serial.printf("%i \n", G);
 
   while (G==0){
+    button1.tick();
     GreenButton.tick();
     pressPA = bme.readPressure() / 100.0F;
     inHg = PressCon(pressPA);
@@ -46,6 +40,7 @@ void loop() {
     tempF = CtoF(tempC);
     drawreadBME(); 
     pixel2temp();
+    Serial.printf("%i \n", G);
 }
 
 
