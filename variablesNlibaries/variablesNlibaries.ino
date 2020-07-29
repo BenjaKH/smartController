@@ -26,19 +26,11 @@ int buttonPin = 23;
 int colorArrayHue[] = {HueRed, HueOrange, HueYellow, HueGreen, HueBlue, HueIndigo, HueViolet};
 int colorArray[] = {violet, blue, purple, cyan, teal, green, yellow, orange, maroon, red};
 int bulb[] = {0, 1, 2, 3, 4};
+bool status = true;
 
-int posW, old_posW, pos2W, newValW, newVal, j;
-bool laststateW, buttonStateW, stateW, buttonstate, laststate, hueState; 
-
-
-
-
-int 
+int posW, old_posW, pos2W, newValW, newVal, j,  lastbright, lastbulb, lastx, bright, pos, newVal, x, y;
+bool laststateW, buttonStateW, stateW, buttonstate, laststate, hueState, activated;
+float humidRH, pressPA, tempC, tempF, hpa, inHg;
 
 byte i;
 byte count = 0;
-float humidRH, pressPA, tempC, tempF, hpa, inHg;
-bool status = true;
-boolean activated;  // true for bulb on, falso for off
-bool 
-int lastbright, lastbulb, lastx, bright, pos, newVal, x, y;
