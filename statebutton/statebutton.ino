@@ -1,4 +1,5 @@
 #include "libraries.h"
+Timer timer;
 
 OneButton GreenButton(21, false, true);
 
@@ -23,6 +24,7 @@ void setup() {
   StatusBME();  
   testdrawstyles();
   drawreadBME();
+  timer.startTimer(4000);
 }
 
 void loop() {
@@ -38,7 +40,10 @@ void loop() {
     humidRH = bme.readHumidity();
     tempC = bme.readTemperature();
     tempF = CtoF(tempC);
-    drawreadBME(); 
+    if (timer.isTimerReady() == true){
+      drawreadBME(); 
+      timer.startTimer(4000);
+    } 
     pixel2temp();
     Serial.printf("%i \n", G);
 }
@@ -151,9 +156,14 @@ void BulbFunction() {
       else{
         a = "OFF";
           }
-    Serial.printf("Bulb %i is %s, Color Value = %i, Brightness %i\n",  y, a, colorArrayHue[x], bright);
-    } 
-}
+    Serial.printf("Bulb %i is %s, Color Value = %i, Brightness %i\n",  y, a, colorArrayHue[x], bright); 
+  display.clearDisplay();
+  display.setTextSize(1);             // Normal 1:1 pixel scale
+  display.setTextColor(SSD1306_WHITE);        // Draw white text
+  display.setCursor(0,0);             // Start at top-left corner
+  display.printf("Bulb %i is %s, Brightness %i\n", y, a, bright);
+  display.display();
+}}
 void testdrawstyles(void) {
   display.clearDisplay();
 
@@ -172,27 +182,25 @@ void testdrawstyles(void) {
 }
 
 void drawreadBME(void) {
+  static int t = 0;
   display.clearDisplay();
   display.setTextSize(1);             // Normal 1:1 pixel scale
   display.setTextColor(SSD1306_WHITE);        // Draw white text
   display.setCursor(0,0);             // Start at top-left corner
-  display.printf("Atomspheric pressure is %.2f inches mercury. \n", inHg);
+  if (t == 0){
+    display.printf("Atomspheric pressure is %.2f inches mercury. \n", inHg);
+  }
+  if (t == 1){
+    display.printf("Humidity is %.2f percent. \n", humidRH);
+  }
+  if (t == 2){
+    display.printf("Temperature right now is %.2f , F. \n", tempF);
+  }
   display.display();
-  delay(5000);
-  
-  display.clearDisplay();
-  display.setCursor(0,0);
-  display.printf("Humidity is %.2f percent. \n", humidRH);
-  display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-  display.display();
-  delay(5000);
-  
-  display.clearDisplay();
-  display.setCursor(0,0);
-  display.printf("Temperature right now is %.2f , F. \n", tempF);
-  display.setTextColor(SSD1306_BLACK, SSD1306_WHITE); // Draw 'inverse' text
-  display.display();
-  delay(4000);
+    t++;
+    if (t > 2){
+    t = 0; 
+  }
 }
 
 void initDisplay() {

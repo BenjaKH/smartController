@@ -10,6 +10,7 @@
 #include <OneButton.h>
 #include <SPI.h>
 #include <SD.h>
+#include <Timer.h>
 #include <wemo.h>
 #include <Wire.h>
 
