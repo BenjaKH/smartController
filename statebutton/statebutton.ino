@@ -16,17 +16,17 @@ void setup() {
 }
 
 void loop() {
-  button1.tick();
   GreenButton.tick();
   Serial.printf("%i \n", G);
+  pixel2temp();
 
-  while (G==0){
-   whileBME();
+  if (G==0){
+    whileBME();
   }
-  while (G== 1){
+  if (G==1){
     whileSmartLights();
   }
-  while (G==2){
+  if (G==2){
     whileOutlets();
   }
 }
@@ -35,7 +35,7 @@ void loop() {
 void clickGB(){
   GreenButtonState[G];
   G++;
-  if (G > 4){
+  if (G > 2){
     G=0;
   }
 }
@@ -232,14 +232,16 @@ void initWemoSetup(){
 }
 
 void initWemoButtons(){
-  button1.attachClick(click1Wemo);
-  button1.setDebounceTicks(100);
+  button1Wemo.attachClick(click1Wemo);
+  button1Wemo.setDebounceTicks(100);
 }
 
 void WemoFunction(){
+  if (G==2){
     if (buttonStateW != laststateW){     
     laststateW = buttonStateW;
       }
+  }
 }
 
 void WhichOutlet(){
@@ -310,7 +312,7 @@ void whileSmartLights(){
 }
 
 void whileOutlets(){
-  button1.tick();
+  button1Wemo.tick();
   GreenButton.tick();
   WhichOutlet();
   WemoFunction();

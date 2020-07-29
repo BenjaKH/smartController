@@ -1,0 +1,11 @@
+compont list
+
+bread board
+Teensy 3.2
+OLED I2C2
+BME/ BMP280
+RG encoder
+S1 Button
+220 Resistor
+Adafruit NeoPixel ring
+Wiz820io1 ethernet port

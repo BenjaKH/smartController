@@ -23,7 +23,7 @@ void loop() {
   while (G==0){
    whileBME();
   }
-  while (G== 1){
+  while (G==1){
     whileSmartLights();
   }
   while (G==2){
@@ -35,7 +35,7 @@ void loop() {
 void clickGB(){
   GreenButtonState[G];
   G++;
-  if (G > 4){
+  if (G > 2){
     G=0;
   }
 }

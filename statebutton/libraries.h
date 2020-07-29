@@ -18,7 +18,7 @@ IPAddress ip(192, 168, 1, 16);
 Adafruit_NeoPixel pixel(12, 16, NEO_GRB + NEO_KHZ800);
 Encoder myEnc(14, 15);
 OneButton button1(23, true, true);
-OneButton button2(23, true, true);
+OneButton button1Wemo(23, true, true);
 
 int wemo[] = {0, 1, 2 , 3};
 int Z = 0;

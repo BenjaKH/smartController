@@ -76,29 +76,24 @@ void testdrawstyles(void) {
 
 void drawreadBME(void) {
   static int t = 0;
-  
-//  timer.startTimer(4000);
   display.clearDisplay();
   display.setTextSize(1);             // Normal 1:1 pixel scale
   display.setTextColor(SSD1306_WHITE);        // Draw white text
   display.setCursor(0,0);             // Start at top-left corner
-    if (t == 0){
-  display.printf("Atomspheric pressure is %.2f inches mercury. \n", inHg);
+  if (t == 0){
+    display.printf("Atomspheric pressure is %.2f inches mercury. \n", inHg);
   }
   if (t == 1){
-  display.printf("Humidity is %.2f percent. \n", humidRH);
+    display.printf("Humidity is %.2f percent. \n", humidRH);
   }
   if (t == 2){
- display.printf("Temperature right now is %.2f , F. \n", tempF);
+    display.printf("Temperature right now is %.2f , F. \n", tempF);
   }
   display.display();
- 
     t++;
     if (t > 2){
-    t = 0;
-    
+    t = 0; 
   }
-  Serial.println(t);
 }
 
 void initDisplay() {
