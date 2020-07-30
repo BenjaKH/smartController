@@ -8,7 +8,7 @@
 #include <OneButton.h>
 IPAddress ip(192,168,1,16);
 Encoder myEnc(14, 15);
-OneButton button1(23, true, true);
+OneButton button1Wemo(23, true, true);
 int wemo[] = {0, 1, 2 ,3};
 int Z = 0;
 int posW, old_posW, pos2W, newValW;
@@ -24,7 +24,7 @@ void setup(){
 }
 
 void loop(){
-  button1.tick();
+  button1Wemo.tick();
   
 
   WhichOutlet();
@@ -65,8 +65,8 @@ void initWemoSetup(){
 }
 
 void initWemoButtons(){
-  button1.attachClick(click1Wemo);
-  button1.setDebounceTicks(100);
+  button1Wemo.attachClick(click1Wemo);
+  button1Wemo.setDebounceTicks(100);
 }
 
 void WemoFunction(){
